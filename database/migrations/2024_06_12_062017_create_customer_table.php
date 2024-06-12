@@ -16,6 +16,7 @@ return new class extends Migration
 
             $table->string('email')->unique();
             $table->string('name');
+
             // storing balance in big integer in order to avoid undesirable behavior of
             // float numbers in math operations (https://0.30000000000000004.com/)
             $table->unsignedBigInteger('balance')->default(0);

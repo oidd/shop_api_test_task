@@ -18,6 +18,8 @@ class Customer extends AbstractTokenUser
     protected $hidden = [
         'password',
         'api_token',
-        'api_token_expire'
+        'api_token_expire',
+        'updated_at',
+        'created_at',
     ];
 }

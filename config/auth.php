@@ -39,11 +39,13 @@ return [
         'customer' => [
             'driver' => 'token',
             'provider' => 'customers',
+            'hash' => true,
         ],
 
         'admin' => [
             'driver' => 'token',
             'provider' => 'admins',
+            'hash' => true,
         ],
     ],
 

@@ -11,32 +11,10 @@ use Illuminate\Support\Str;
 
 abstract class AbstractTokenUser extends Authenticatable
 {
-    public function generateToken()
-    {
-        // ensure that generated token is unique
-        do {
-            $this->api_token = Str::random(50) . substr((string) Carbon::now()->timestamp, -1, -5);
-        } while (self::where('api_token', Hash::make($this->api_token))->exists());
-
-        $this->token_expires_at = Carbon::now()->addWeeks(2)->toDateTime();
-
-        $this->save();
-
-        return $this->api_token;
-    }
-
-    public function dismissToken()
-    {
-        $this->api_token = null;
-        $this->token_expires_at = null;
-
-        return $this->save();
-    }
-
     // mutator, so token would be automatically hashed when set
     protected function apiToken(): Attribute
     {
-        return Attribute::set(fn ($token) => Hash::make($token));
+        return Attribute::set(fn ($token) => hash('sha256', $token));
     }
 
     // same as password
