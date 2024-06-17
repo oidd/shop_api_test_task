@@ -9,6 +9,10 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Response;
 
+// using this middleware instead of default 'auth' in order to
+// throw proper exceptions with explanations.
+// also the default one doesn't have logic for checking if provided token expired.
+
 class AuthenticateTokenUser
 {
     /**

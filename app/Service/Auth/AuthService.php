@@ -2,8 +2,6 @@
 
 namespace App\Service\Auth;
 
-use App\Http\Requests\Auth\registerRequest;
-use App\Models\Customer;
 use Carbon\Carbon;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Support\Facades\Hash;
@@ -48,7 +46,8 @@ class AuthService
         $user->api_token = null;
         $user->token_expires_at = null;
 
-        return $user->saveOrFail();
+        // returns logged out user
+        return tap($user)->saveOrFail();
     }
 
     private function generateToken(AbstractTokenUser $user): string

@@ -2,12 +2,10 @@
 
 namespace App\Service\Auth;
 
-use App\Traits\UsesTokenAuth;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Str;
 
 abstract class AbstractTokenUser extends Authenticatable
 {
