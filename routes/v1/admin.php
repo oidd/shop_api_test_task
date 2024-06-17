@@ -1,7 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\AuthController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/hey', function () {
-    return response()->json('oh hello there');
-});
+Route::post('/login', [AuthController::class, 'login']);

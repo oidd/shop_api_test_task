@@ -18,7 +18,7 @@ class Admin extends AbstractTokenUser
     protected $hidden = [
         'password',
         'api_token',
-        'api_token_expire',
+        'token_expires_at',
         'updated_at',
         'created_at',
     ];
