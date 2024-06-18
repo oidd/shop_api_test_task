@@ -4,6 +4,9 @@ namespace App\Service\ResourceServices;
 
 use App\Contracts\HaveOrdersContract;
 use App\Contracts\ResourceServiceContract;
+use App\Events\OrderCancelled;
+use App\Events\OrderSaved;
+use App\Events\OrderUpdated;
 use App\Exceptions\CantSatisfyShipmentException;
 use App\Exceptions\UserCantAffordOrderException;
 use App\Models\Order;
@@ -29,17 +32,19 @@ class OrderService implements ResourceServiceContract
                 fn ($data, $req) => $data->whereBetween('amount', array_map(fn ($v) => (float) $v * 100, explode('-', $req)) ),
             'status' =>
                 fn ($data, $req) => $data->whereIn('status', $req),
+            'customer_id' =>
+                fn ($data, $req) => $data->where('customer_id', $req),
         ]);
 
         return $filter->apply(Order::query(),
-            filterRequirements: $filterBy,
-            sortRequirements: $sortBy,
+            filterRequirements: $filterBy ?? array(),
+            sortRequirements: $sortBy ?? array(),
         );
     }
 
     public function getOrdersForUser(HaveOrdersContract $user, $filterBy, $sortBy)
     {
-        return $this->index(['customer_id' => $user->id] + $filterBy, $sortBy);
+        return $this->index(array_merge(['customer_id' => $user->id], $filterBy), $sortBy);
     }
 
     public function store(array $params)
@@ -49,6 +54,8 @@ class OrderService implements ResourceServiceContract
         $order = Order::create([
             'customer_id' => $params['user_id'],
         ]);
+
+        unset($params['user_id']);
 
         foreach ($params as $v)
             $order->products()->attach($order->id, ['product_id' => $v['id'], 'count' => $v['count']]);
@@ -62,7 +69,9 @@ class OrderService implements ResourceServiceContract
 //      the transaction is automatically rollbacks when exception occur, so no need to try-catch
         DB::commit();
 
-        return $order;
+        OrderSaved::dispatch($order);
+
+        return $order->refresh();
     }
 
     private function satisfyShipment(Order $uncommitedOrder): bool
@@ -126,6 +135,9 @@ class OrderService implements ResourceServiceContract
     public function update($model, array $params)
     {
         $model->update($params);
+
+        OrderUpdated::dispatch($model);
+        OrderCancelled::dispatchIf($params['status'] == 'cancelled', $model);
 
         return tap($model)->save();
     }
