@@ -25,16 +25,31 @@ class AuthenticateTokenUser
         if (empty($guard))
             $guard = config('auth.defaults.guard');
 
-        Auth::shouldUse($guard);
-
         if (empty(Auth::getTokenForRequest()))
             throw new AuthenticationException('No token provided.');
 
-        if (!Auth::check())
+        if ($guard == 'any')
+        {
+            // don't know why 'web' guard keeps pop up in here, it is not in auth config file
+            $guards = collect(config('auth.guards'))->except('web');
+
+            foreach ($guards as $k => $_)
+                if ($v = Auth::guard($k)->check())
+                {
+                    $guard = $k;
+                    break;
+                }
+        }
+        else
+            $v = Auth::guard($guard)->check();
+
+        if (!$v)
             throw new AuthenticationException('Invalid token.');
 
-        if ($request->user()->token_expires_at->lte(Carbon::now()))
+        if (Auth::guard($guard)->user()->token_expires_at->lte(Carbon::now()))
             throw new AuthenticationException('Token expired.');
+
+        Auth::shouldUse($guard); // so next time Auth::user() will use right guard within this request
 
         return $next($request);
     }
