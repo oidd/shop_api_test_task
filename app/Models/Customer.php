@@ -9,11 +9,13 @@ use App\Traits\HandlesMoney;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Notifications\Notifiable;
 
 class Customer extends AbstractTokenUser implements HaveBalanceContract, HaveOrdersContract
 {
     use HasFactory;
     use HandlesMoney;
+    use Notifiable;
 
     protected $fillable = [
         'name',

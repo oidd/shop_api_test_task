@@ -21,11 +21,6 @@ class Order extends Model
 
     protected $appends = ['amount', 'created_at'];
 
-    protected $dispatchesEvents = [
-        'saved'     => OrderSaved::class,
-        'updated'   => OrderUpdated::class
-    ];
-
     public function products(): BelongsToMany
     {
         return $this->belongsToMany(Product::class, 'order_product')->withPivot('count');

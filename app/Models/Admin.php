@@ -4,9 +4,11 @@ namespace App\Models;
 
 use App\Service\Auth\AbstractTokenUser;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Notifications\Notifiable;
 
 class Admin extends AbstractTokenUser
 {
+    use Notifiable;
     use HasFactory;
 
     protected $fillable = [
