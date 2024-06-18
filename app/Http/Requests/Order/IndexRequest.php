@@ -13,12 +13,6 @@ class IndexRequest extends FormRequest
 {
     use HandlesSorting;
 
-    public function authorize(): bool
-    {
-        return true;
-//        return ($this->user()->can('index', Order::class));
-    }
-
     protected function prepareForValidation()
     {
         $this->wrapAttributesIntoArray(['customer_id', 'status', 'created_at']);

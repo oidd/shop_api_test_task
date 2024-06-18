@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Auth;
 
+use App\Models\Customer;
 use Illuminate\Foundation\Http\FormRequest;
 
 class RegisterRequest extends FormRequest

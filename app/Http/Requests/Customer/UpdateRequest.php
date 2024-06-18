@@ -12,7 +12,7 @@ class UpdateRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return $this->user()->can('update', Customer::class);
+        return $this->user()->can('update', $this->route('customer'));
     }
 
     /**
@@ -23,7 +23,8 @@ class UpdateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'email' => 'email',
+            'name' => 'string',
         ];
     }
 }

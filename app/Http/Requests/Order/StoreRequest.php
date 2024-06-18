@@ -2,14 +2,14 @@
 
 namespace App\Http\Requests\Order;
 
+use App\Models\Order;
 use Illuminate\Foundation\Http\FormRequest;
 
 class StoreRequest extends FormRequest
 {
     public function authorize()
     {
-        return true;
-//        return $this->user()->can('store', Order::class);
+        return $this->user()->can('store', Order::class);
     }
 
     /**

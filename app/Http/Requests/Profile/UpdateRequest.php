@@ -1,12 +1,19 @@
 <?php
 
-namespace App\Http\Requests\Product;
+namespace App\Http\Requests\Profile;
 
-use App\Models\Product;
 use Illuminate\Foundation\Http\FormRequest;
 
 class UpdateRequest extends FormRequest
 {
+    /**
+     * Determine if the user is authorized to make this request.
+     */
+    public function authorize(): bool
+    {
+        return false;
+    }
+
     /**
      * Get the validation rules that apply to the request.
      *
@@ -15,10 +22,7 @@ class UpdateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name'          => 'string',
-            'price'         => 'numeric|decimal:0,2|gte:0',
-            'category_id'   => 'exists:categories,id',
-            'stock'         => 'integer|gte:0'
+            //
         ];
     }
 }

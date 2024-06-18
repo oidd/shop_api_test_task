@@ -4,6 +4,7 @@ namespace App\Http\Requests\Order;
 
 use App\Models\Admin;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Auth;
 
 class ShowRequest extends FormRequest
 {
@@ -12,7 +13,6 @@ class ShowRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return true;
-//        return $this->user()->can('show', $this->route('order'));
+        return $this->user()->can('show', $this->route('order'));
     }
 }

@@ -9,33 +9,9 @@ use App\Service\Auth\AbstractTokenUser;
 
 class OrderPolicy
 {
-    public function create(AbstractTokenUser $user)
+    public function store(AbstractTokenUser $user)
     {
-        if ($user instanceof Customer)
-            return true;
-
-        return false;
-    }
-
-    public function update(AbstractTokenUser $user)
-    {
-        if ($user instanceof Admin)
-            return true;
-
-        return false;
-    }
-
-    public function index(AbstractTokenUser $user)
-    {
-        if ($user instanceof Admin)
-            return true;
-
-        return false;
-    }
-
-    public function destroy(AbstractTokenUser $user)
-    {
-        if ($user instanceof Admin)
+        if ($user instanceof Customer) // Only customer can make new order.
             return true;
 
         return false;
@@ -46,7 +22,7 @@ class OrderPolicy
         if ($user instanceof Admin)
             return true;
 
-        if ($order->customer()->id === $user->id)
+        if ($order->customer->id === $user->id) // Customer can see its own order
             return true;
 
         return false;
