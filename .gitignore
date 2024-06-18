@@ -5,7 +5,7 @@
 /public/storage
 /storage/*.key
 /vendor
-.env
+#.env
 .env.backup
 .env.production
 .phpactor.json
@@ -19,3 +19,4 @@ yarn-error.log
 /.idea
 /.vscode
 notes.txt
+db_data
