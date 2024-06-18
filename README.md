@@ -7,9 +7,13 @@ A test project, still in development.
 ## Installation
 When in root project directory:
 > docker-compose up nginx --build -d
+
 > docker-compose run php composer install
+
 > docker-compose run artisan migrate
+
 > docker-compose run artisan db:seed
+
 > docker-compose up queue
 
 ## About
