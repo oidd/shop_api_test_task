@@ -28,7 +28,7 @@ COPY ../../ .
 
 #ENV COMPOSER_ALLOW_SUPERUSER=1
 #
-#COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
+COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
 # Установка прав
 RUN chmod -R 777 /var/www/laravel/*
