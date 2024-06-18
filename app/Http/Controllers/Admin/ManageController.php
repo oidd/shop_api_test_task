@@ -7,5 +7,5 @@ use Illuminate\Http\Request;
 
 class ManageController extends Controller
 {
-    //
+    // methods for getting reports goes here
 }

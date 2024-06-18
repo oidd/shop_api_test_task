@@ -43,7 +43,7 @@ class CategoryController extends Controller
         );
     }
 
-    public function destroy(DestroyRequest $request, Category $category)
+    public function destroy(Category $category)
     {
         return response()->json(
             new CategoryResource($this->service->destroy($category))

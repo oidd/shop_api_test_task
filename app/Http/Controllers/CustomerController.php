@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\Auth\RegisterRequest;
-use App\Http\Requests\Customer\DestroyRequest;
 use App\Http\Requests\Customer\IndexRequest;
 use App\Http\Requests\Customer\ShowRequest;
 use App\Http\Requests\Customer\UpdateRequest;
@@ -54,7 +53,7 @@ class CustomerController extends Controller
         );
     }
 
-    public function destroy(DestroyRequest $request, Customer $customer)
+    public function destroy(Customer $customer)
     {
         return response()->json(
             new CustomerResource($this->service->destroy($customer))

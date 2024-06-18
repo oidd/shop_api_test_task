@@ -39,11 +39,6 @@ class OrderController extends Controller
         ));
     }
 
-    public function refund(RefundRequest $request, Order $order)
-    {
-        return response()->json($this->service->proceedRefund($order));
-    }
-
     public function show(ShowRequest $request, Order $order)
     {
         return response()->json(
@@ -60,7 +55,7 @@ class OrderController extends Controller
         );
     }
 
-    public function destroy(DestroyRequest $request, Order $order)
+    public function destroy(Order $order)
     {
         return response()->json(
             new OrderResource($this->service->destroy($order))

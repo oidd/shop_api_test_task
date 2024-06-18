@@ -34,7 +34,7 @@ class AdminController extends Controller
         );
     }
 
-    public function show(ShowRequest $request, Admin $admin)
+    public function show(Admin $admin)
     {
         return response()->json(
             new AdminResource($admin)
@@ -55,7 +55,7 @@ class AdminController extends Controller
         );
     }
 
-    public function destroy(DestroyRequest $request, Admin $admin)
+    public function destroy(Admin $admin)
     {
         return response()->json(
             new AdminResource($this->service->destroy($admin))

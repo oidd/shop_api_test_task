@@ -51,7 +51,7 @@ class ProductController extends Controller
         );
     }
 
-    public function destroy(DestroyRequest $request, Product $product)
+    public function destroy(Product $product)
     {
         return response()->json(
             new ProductResource($this->service->destroy($product))
