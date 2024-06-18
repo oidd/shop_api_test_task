@@ -14,7 +14,9 @@ trait ResourceDefaultMethods
     {
         $model->update($params);
 
-        return tap($model)->save();
+        $model->save();
+
+        return $model->refresh();
     }
 
     public function destroy($model)
