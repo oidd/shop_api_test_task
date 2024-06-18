@@ -1,0 +1,47 @@
+version: "3.8"
+
+services:
+  nginx:
+    image: "nginx:stable-alpine"
+    ports:
+      - "8000:80"
+    volumes:
+      - ./docker/nginx/nginx.conf:/etc/nginx/conf.d/default.conf:ro
+      - ./:/var/www/laravel
+    depends_on:
+      - postgres
+      - php
+  php:
+    build:
+      context: docker
+      dockerfile: dockerfiles/php.Dockerfile
+    volumes:
+      - ./:/var/www/laravel
+  postgres:
+    image: postgres:15-alpine
+    ports:
+      - "5433:5432"
+    env_file:
+      - ./docker/env/postgres.env
+    volumes:
+      - db_data:/var/lib/postgres/data
+
+  artisan:
+    build:
+      context: docker
+      dockerfile: dockerfiles/php.Dockerfile
+    volumes:
+      - ./:/var/www/laravel
+    entrypoint: ["php", "/var/www/laravel/artisan"]
+
+  queue:
+    restart: always
+    build:
+      context: docker
+      dockerfile: dockerfiles/php.Dockerfile
+    volumes:
+      - ./:/var/www/laravel
+    entrypoint: [ "php", "/var/www/laravel/artisan", "queue:work" ]
+
+volumes:
+  db_data:
