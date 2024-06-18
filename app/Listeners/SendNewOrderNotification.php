@@ -3,13 +3,21 @@
 namespace App\Listeners;
 
 use App\Events\OrderSaved;
+use App\Models\Admin;
+use App\Notifications\SendOrderCreatedNotification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Support\Facades\Notification;
 
-class SendNewOrderNotification
+class SendNewOrderNotification implements ShouldQueue
 {
+    use InteractsWithQueue;
+
     public function handle(OrderSaved $event): void
     {
-//        dd($event->order);
+        Notification::send(
+            Admin::all(),
+            new SendOrderCreatedNotification($event->order)
+        );
     }
 }
