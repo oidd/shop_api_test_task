@@ -13,6 +13,7 @@ use App\Models\Order;
 use App\Traits\HandlesMoney;
 use App\Traits\ResourceDefaultMethods;
 use App\Utils\Filtering\Filter;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 
 class OrderService implements ResourceServiceContract
@@ -34,6 +35,8 @@ class OrderService implements ResourceServiceContract
                 fn ($data, $req) => $data->whereIn('status', $req),
             'customer_id' =>
                 fn ($data, $req) => $data->where('customer_id', $req),
+            'created_at_range' =>
+                fn ($data, $req) => $data->whereBetween('created_at', array_map(fn ($v) => Carbon::createFromFormat('Y.m.d', $v), explode('-', $req)))
         ]);
 
         return $filter->apply(Order::query(),
