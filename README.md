@@ -34,12 +34,14 @@ Is implemented in App\Utils\Filtering\Filter. Filtering rules for any entity col
 A small additional functions for form requests validation rules related to filtration are presented in trait HandlesSorting. Sorting is applied on existing attributes of the table and custom accesors if presented.
 
 ### Notifications
-There are two notifications: Order created and Order status changed. First one would be sent to all admins on their email. The second one would be sent to related user. I'm not using any mock mailbox, so all **sent mails will appear only in logs**. All event listeners are being queued.
+There are three notifications: Order created, Order status changed and report created. First one would be sent to all admins on their email. The second one would be sent to related user. Third send to admin, that requested report. I'm not using any mock mailbox, so all **sent mails will appear only in logs**. All event listeners are being queued.
+
+### Reports in XLSX
+Admin has an ability to generate reports about Orders for certain time range. Once requested, job being put into queue, and once file formed and saved, admin recieves a link for download it with unique signature.
 
 # Usage
 All endpoints starts with 'api/v1/'.
 You should send 'Accept: Application/Json' header for every request. API token should be sent in Authorization: Bearer \<insert token here\> header.
-I will write swagger later i swear
 
 **Pagination**
 Every index method returns paginated data. Every index method accepts perPage attribute to specify number of elements on page (15 by default, you can change it in configs). Use page attribute to navigate.
