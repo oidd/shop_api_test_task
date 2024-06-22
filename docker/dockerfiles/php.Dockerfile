@@ -3,22 +3,27 @@ FROM php:8.2-fpm
 ARG user
 ARG uid
 
-RUN apt-get update && apt-get install -y \
+
+RUN apt-get update
+
+RUN apt-get install -y \
     libpq-dev \
     git \
     curl \
     libpng-dev \
     libonig-dev \
     libxml2-dev \
+    libzip-dev \
     zip \
     unzip \
     supervisor \
     nginx \
     build-essential \
-    openssl
+    openssl \
+    libgd3
 
 # Установка расширений PHP
-RUN docker-php-ext-install pdo_pgsql mbstring exif pcntl bcmath gd
+RUN docker-php-ext-install pdo_pgsql mbstring exif pcntl bcmath gd zip
 
 # Установка рабочей директории
 WORKDIR /var/www/laravel
