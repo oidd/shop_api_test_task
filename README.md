@@ -43,10 +43,10 @@ Admin has an ability to generate reports about Orders for certain time range. On
 All endpoints starts with 'api/v1/'.
 You should send 'Accept: Application/Json' header for every request. API token should be sent in Authorization: Bearer \<insert token here\> header.
 
-**Pagination**
+## Pagination
 Every index method returns paginated data. Every index method accepts perPage attribute to specify number of elements on page (15 by default, you can change it in configs). Use page attribute to navigate.
 
-**Sorting**
+## Sorting
 Every index method has sorting related validation rules. 
 If rule like *_range presented, then you should pass two values with a '-' between them.
 In order to sort by DESC, pass a '-' before attribute name.
